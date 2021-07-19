@@ -11,6 +11,8 @@ Arguments
     are created, and a mirrored strategy is created with all physical GPUs.
 --cpu : bool
     (debug) Whether to use CPU-only training.
+--gpus : int[]
+    Comma separated list of GPU indices to use on a multi-gpu system.
 --problem : str
     Problem to evaluate on. Can pass a comma separated list.
 --directory : str

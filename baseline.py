@@ -1,9 +1,26 @@
 """Evaluate Baseline.
 
-Run with
-```
-python baseline.py directory --vgpu=1
-```
+Baseline results are saved in the ```./baseline``` folder.
+
+Examples
+--------
+python baseline.py --problem=conv_train --optimizer=adam
+
+Arguments
+---------
+--vgpu : int >= 1
+    (debug) Number of virtual GPUs to create for testing. If 1, no virtual GPUs
+    are created, and a mirrored strategy is created with all physical GPUs.
+--cpu : bool
+    Whether to run on CPU instead of GPU.
+--gpus : int[]
+    Comma separated list of GPU indices to use on a multi-gpu system.
+--keras : bool
+    Whether to use keras versions of each optimizer or manually coded version.
+--problem : str
+    Training problem to use.
+--optimizer : str
+    Name of optimizer to use.
 """
 
 import os

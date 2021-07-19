@@ -42,7 +42,7 @@ Each folder contains 8 replicates with varying performance.
 
 ### Included scripts
 
-```evaluate.py```: evaluate learned optimizer.
+```evaluate.py```:
 
 | Arg | Type | Description |
 | - | - | - |
@@ -61,7 +61,45 @@ See the help string for a full list of arguments.
 | ```presets``` | ```str[]``` | Comma separated list of presets to apply. | 
 | (all other args) | - | Passed as overrides to strategy/policy building. |
 
+```baseline.py```:
+
+| Arg | Type | Description |
+| - | - | - |
+| ```problem``` | ```str``` | Problem to evaluate on. Can pass a comma separated list. |
+| ```optimizer``` | ```str``` | Name of optimizer to use. |
+
 See the help string for a full list of arguments.
+
+### Experiment folder structure
+
+Experiment file path:
+```
+results/{policy_name}/{experiment_name}/{replicate_number}
+```
+
+Experiment file structure:
+```
+[root]
+  > [checkpoint]
+      > stage_{stage_0.0.0}.index
+      > stage_{stage_0.0.0}.data-00000-of-00001
+      > stage_{stage_0.1.0}.index
+      > ....
+  > [eval]
+      > [{eval_problem_1}]
+          > stage_{x.x.x}.npz
+      > ....
+  > [log]
+      > stage_{stage_0.0.0}.npz
+      > stage_{stage_0.1.0}.npz
+      > ....
+  > config.json
+  > summary.csv
+```
+
+Key files:
+- ```config.json```: experiment configuration (hyperparameters, technical details, etc)
+- ```summary.csv```: log of training details (losses, training time, etc)
 
 ## Experiments
 
