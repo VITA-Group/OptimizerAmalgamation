@@ -1,1 +1,135 @@
-# Optimizer-Distillation
+# Optimizer Distillation
+
+**If accepted, place paper explainer here.**
+
+## Setup and Basic Usage
+
+### Basic Setup
+
+1. Clone repository and submodules
+```
+git clone --recursive https://github.com/VITA-Group/OptimizerDistillation
+```
+
+2. Check dependencies:
+| Library | Known Working | Known Not Working |
+| - | - | - |
+| tensorflow | 2.3.0, 2.4.1 | <= 2.2 |
+| tensorflow_datasets | 3.1.0, 4.2.0 | n/a |
+| pandas | 0.24.1, 1.2.4 | n/a |
+| numpy | 1.18.5, 1.19.2 | >=1.20 |
+| scipy | 1.4.1, 1.6.2 | n/a |
+
+See [here](https://github.com/thetianshuhuang/l2o) for more dependency information.
+
+### Load pre-trained optimizer
+
+Pre-trained weights can be found in the ``releases" tab on github.
+After downloading and unzipping, the optimizers can be loaded as an L2O framework extending tf.keras.optimizers.Optimizer:
+```python
+import tensorflow as tf
+import l2o
+
+# Folder is sorted as ```pre-trained/{distillation type}/{replicate #}
+opt = l2o.load("pre-trained/choice-large/7")
+# The following is True
+isinstance(opt, tf.keras.optimizers.Optimizer)
+```
+
+Pre-trained weights for Mean distillation (small pool), Min-max distillation (small pool), Choice distillation (small pool), and Choice distillation (large pool) are included.
+Each folder contains 8 replicates with varying performance.
+
+### Included scripts
+
+```evaluate.py```: evaluate learned optimizer.
+
+| Arg | Type | Description |
+| - | - | - |
+| ```problem``` | ```str``` | Problem to evaluate on. Can pass a comma separated list. |
+| ```directory``` | ```str``` | Target directory to load from. Can pass a comma separated list. |
+| ```repeat``` | ```int``` | Number of times to run evaluation. Default: 10 |
+
+See the help string for a full list of arguments.
+
+```train.py```: 
+
+| Arg | Type | Description |
+| - | - | - |
+| ```strategy``` | ```str``` | Training strategy to use. |
+| ```policy``` | ```str``` | Policy to train. |
+| ```presets``` | ```str[]``` | Comma separated list of presets to apply. | 
+| (all other args) | - | Passed as overrides to strategy/policy building. |
+
+See the help string for a full list of arguments.
+
+## Experiments
+
+### Mean, min-max distillation
+
+Training with min-max distillation, rnnprop as target, small pool, convolutional network for training:
+```
+python train.py \
+    --presets=conv_train,adam,rmsprop,il_more \
+    --strategy=curriculum \
+    --policy=rnnprop \
+    --directory=results/rnnprop/min-max/1
+```
+
+Evaluation:
+```
+python evaluate.py \
+    --problem=conv_train \
+    --directory=results/rnnprop/min-max/1 \
+    --repeat=10
+```
+
+Min-max distillation is the default setting. To use mean distillation, add the ```reduce_mean``` preset.
+
+### Choice distillation
+
+Train the choice policy:
+```
+python train.py \
+    --presets=conv_train,cl_fixed \
+    --strategy=repeat \
+    --policy=less_choice \
+    --directory=results/less-choice/base/1
+```
+
+Train for the final distillation step:
+```
+python train.py \
+    --presets=conv_train,less_choice,il_more \
+    --strategy=curriculum \
+    --policy=rnnprop \
+    --directory=results/rnnprop/choice2/1
+```
+
+Evaluation:
+```
+python evaluate.py \
+    --problem=conv_train \
+    --directory=results/rnnprop/choice2/1 \
+    --repeat=10
+```
+
+### Stability-Aware Optimizer Distillation
+
+FGSM, PGD, Adaptive PGD, Gaussian, and Adaptive Gaussian perturbations are implemented.
+| Perturbation | Description | Preset Name | Magnitude Parameter |
+| - | - | - | - |
+| FGSM | Fast Gradient Sign Method | ```fgsm``` | ```step_size``` |
+| PGD | Projected Gradient Descent | ```pgd``` | ```magnitude``` |
+| Adaptive PGD | Adaptive PGD / "Clipped" GD | ```cgd``` | ```magnitude``` |
+| Random | Random Gaussian | ```gaussian``` | ```noise_stddev``` |
+| Adaptive Random | Random Gaussian, Adaptive Magnitude | ```gaussian_rel``` | ```noise_stddev``` |
+
+Modify the magnitude of noise by passing
+```
+--policy/perturbation/config/[Magnitude Parameter]=[Desired Magnitude].
+```
+
+For PGD variants, the number of adversarial attack steps can also be modified:
+```
+--policy/perturbation/config/steps=[Desired Steps]
+```
