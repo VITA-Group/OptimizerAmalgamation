@@ -11,6 +11,8 @@ Arguments
     are created, and a mirrored strategy is created with all physical GPUs.
 --vram : int
     Amount of vram to allocate per virtual GPU if testing.
+--cpu : bool
+    Whether to run on CPU instead of GPU.
 --gpus : int[]
     Comma separated list of GPU indices to use on a multi-gpu system.
 --initialize : bool
@@ -45,8 +47,9 @@ directory = args.pop_get("--directory", default="weights")
 vgpus = int(args.pop_get("--vgpu", default=1))
 memory_limit = int(args.pop_get("--vram", default=12000))
 gpus = args.pop_get("--gpus", default=None)
+cpu = args.pop_get("--cpu", default=False, dtype=bool)
 distribute = create_distribute(
-    vgpus=vgpus, memory_limit=memory_limit, gpus=gpus)
+    vgpus=vgpus, memory_limit=memory_limit, gpus=gpus, do_cpu=cpu)
 
 # Pick up flags first
 initialize_only = args.pop_check("--initialize")

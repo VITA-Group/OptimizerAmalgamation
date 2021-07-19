@@ -42,6 +42,17 @@ Each folder contains 8 replicates with varying performance.
 
 ### Included scripts
 
+See the docstring for each script for a full list of arguments (debug, other testing args).
+
+Common (technical) arguments:
+
+| Arg | Type | Description |
+| - | - | - |
+| ```gpus``` | ```int[]``` | Comma separated list of GPUs (1) |
+| ```cpu``` | ```bool``` | Whether to run on CPU instead of GPU |
+
+(1) GPUs are specified by GPU index (i.e. as returned by ```gpustat```). If no ```--gpus``` are provided, all GPUs on the system are used. If no GPUs are installed, CPU will be used.
+
 ```evaluate.py```:
 
 | Arg | Type | Description |
@@ -49,8 +60,6 @@ Each folder contains 8 replicates with varying performance.
 | ```problem``` | ```str``` | Problem to evaluate on. Can pass a comma separated list. |
 | ```directory``` | ```str``` | Target directory to load from. Can pass a comma separated list. |
 | ```repeat``` | ```int``` | Number of times to run evaluation. Default: 10 |
-
-See the help string for a full list of arguments.
 
 ```train.py```: 
 
@@ -67,8 +76,6 @@ See the help string for a full list of arguments.
 | - | - | - |
 | ```problem``` | ```str``` | Problem to evaluate on. Can pass a comma separated list. |
 | ```optimizer``` | ```str``` | Name of optimizer to use. |
-
-See the help string for a full list of arguments.
 
 ### Experiment folder structure
 
