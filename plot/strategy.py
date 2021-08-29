@@ -219,13 +219,13 @@ class BaseResult:
             "train_last": np.log(res["loss"][:, -1]),
             "train_10": np.log(res["loss"][:, 9]),
             "train_meta": np.mean(np.log(res["val_loss"]), axis=1),
+            "acc_best": np.max(res["val_sparse_categorical_accuracy"]),
         }
 
     def get_train_log(self, **metadata):
         """Get log file for a single training period."""
         metadata = self._complete_metadata(**metadata)
-        return np.load(os.path.join(
-            self.dir_results, t, "log", self._file_name(**metadata)))
+        return np.load(self._path(dtype="log", **metadata) + ".npz")
 
     def plot_training(self, ax, **kwargs):
         """Plot training summary."""

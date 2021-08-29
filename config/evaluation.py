@@ -173,6 +173,16 @@ EVALUATION_PROBLEMS = {
         "epochs": 25,
         "batch_size": 128
     },
+    "conv_cifar10_wider": {
+        "config": {
+            "layers": [[32, 3, 1], 2, [64, 5, 1], 2],
+            "activation": "relu"
+        },
+        "target": "conv_classifier",
+        "dataset": "cifar10",
+        "epochs": 25,
+        "batch_size": 128
+    },
     "rastrigin2": {
         "config": {
             "n": 2, "alpha": 10,
@@ -219,6 +229,46 @@ EVALUATION_PROBLEMS = {
         "epochs": 25,
         "batch_size": 128
     },
+    "conv_nas": {
+        "config": {
+            "filters": 16,
+            "activation": "relu"
+        },
+        "target": "nas_classifier",
+        "dataset": "mnist",
+        "epochs": 25,
+        "batch_size": 128
+    },
+    "conv_nas_cifar": {
+        "config": {
+            "filters": 16,
+            "activation": "relu"
+        },
+        "target": "nas_classifier",
+        "dataset": "cifar10",
+        "epochs": 25,
+        "batch_size": 128
+    },
+    "resnet": {
+        "config": {
+            "depth": 28,
+            "width": 1,
+        },
+        "target": "resnet",
+        "dataset": "cifar10",
+        "epochs": 25,
+        "batch_size": 128
+    },
+    "wide_resnet": {
+        "config": {
+            "depth": 28,
+            "width": 4,
+        },
+        "target": "resnet",
+        "dataset": "cifar10",
+        "epochs": 25,
+        "batch_size": 128
+    }
 }
 
 
