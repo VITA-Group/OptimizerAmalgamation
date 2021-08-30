@@ -21,6 +21,8 @@ Arguments
     Training problem to use.
 --optimizer : str
     Name of optimizer to use.
+--repeat : int
+    Number of times to run evaluation.
 """
 
 import os
@@ -83,7 +85,7 @@ target_cfg = {
     }
 }[target]
 
-repeat = int(args.pop_get("--repeat", 10))
+repeat = args.pop_get("--repeat", default=10, dtype=10)
 
 kwargs = get_eval_problem(problem)
 if "steps" in kwargs:
