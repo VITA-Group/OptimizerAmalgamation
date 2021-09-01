@@ -9,7 +9,7 @@ OVERRIDE_PRESETS = {
 
     "sgd": [(
         ["training", "teachers", "*"],
-        {"class_name": "SGD", "config": {"learning_rate": 0.2}}
+        {"class_name": "SGD", "config": {"learning_rate": 1.0}}
     )],
     "momentum": [(
         ["training", "teachers", "*"],
@@ -25,18 +25,18 @@ OVERRIDE_PRESETS = {
     "rmsprop": [(
         ["training", "teachers", "*"],
         {"class_name": "RMSProp",
-         "config": {"learning_rate": 0.005, "rho": 0.9, "epsilon": 1e-10}}
+         "config": {"learning_rate": 0.002, "rho": 0.9, "epsilon": 1e-10}}
     )],
     "powersign": [(
         ["training", "teachers", "*"],
         {"class_name": "PowerSign",
-         "config": {"learning_rate": 0.1, "beta_1": 0.9,
+         "config": {"learning_rate": 0.5, "beta_1": 0.9,
                     "beta_2": 0.999, "epsilon": 1e-10}},
     )],
     "addsign": [(
         ["training", "teachers", "*"],
         {"class_name": "AddSign",
-         "config": {"learning_rate": 0.1, "beta_1": 0.9,
+         "config": {"learning_rate": 0.5, "beta_1": 0.9,
                     "beta_2": 0.999, "epsilon": 1e-10}},
     )],
     "choice": [(
