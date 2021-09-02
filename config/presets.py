@@ -47,11 +47,27 @@ OVERRIDE_PRESETS = {
             "checkpoint": "period_4.0"
         }
     )],
+    "more_shallow": [(
+        ["training", "teachers", "*"],
+        {
+            "class_name": "__load__",
+            "directory": "results/more_choice/shallow/1",
+            "checkpoint": "period_4.0"
+        }
+    )],
     "less_choice": [(
         ["training", "teachers", "*"],
         {
             "class_name": "__load__",
             "directory": "results/less_choice/base/1",
+            "checkpoint": "period_4.0"
+        }
+    )],
+    "less_shallow": [(
+        ["training", "teachers", "*"],
+        {
+            "class_name": "__load__",
+            "directory": "results/less_choice/shallow/1",
             "checkpoint": "period_4.0"
         }
     )],
