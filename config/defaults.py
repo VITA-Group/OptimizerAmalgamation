@@ -279,19 +279,19 @@ POLICY = {
             "warmup_lstm_update": False,
             # Choices
             "pool": [
-                {"class_name": "SGD", "config": {"learning_rate": 1.0}},
+                {"class_name": "SGD", "config": {"learning_rate": 2.0}},
                 {"class_name": "Momentum",
-                 "config": {"learning_rate": 0.5, "beta_1": 0.9}},
+                 "config": {"learning_rate": 2.0, "beta_1": 0.9}},
                 {"class_name": "RMSProp",
-                 "config": {"learning_rate": 0.002, "rho": 0.9}},
+                 "config": {"learning_rate": 0.005, "rho": 0.9}},
                 {"class_name": "Adam",
-                 "config": {"learning_rate": 0.005, "beta_1": 0.9,
+                 "config": {"learning_rate": 0.02, "beta_1": 0.9,
                             "beta_2": 0.999, "epsilon": 1e-10}},
                 {"class_name": "PowerSign",
-                 "config": {"learning_rate": 0.5, "beta_1": 0.9,
+                 "config": {"learning_rate": 1.0, "beta_1": 0.9,
                             "beta_2": 0.999, "epsilon": 1e-10}},
                 {"class_name": "AddSign",
-                 "config": {"learning_rate": 0.5, "beta_1": 0.9,
+                 "config": {"learning_rate": 1.0, "beta_1": 0.9,
                             "beta_2": 0.999, "epsilon": 1e-10}},
             ],
             # LSTMCell Args
@@ -320,9 +320,9 @@ POLICY = {
             # Choices
             "pool": [
                 {"class_name": "RMSProp",
-                 "config": {"learning_rate": 0.002, "rho": 0.9}},
+                 "config": {"learning_rate": 0.005, "rho": 0.9}},
                 {"class_name": "Adam",
-                 "config": {"learning_rate": 0.005, "beta_1": 0.9,
+                 "config": {"learning_rate": 0.02, "beta_1": 0.9,
                             "beta_2": 0.999, "epsilon": 1e-10}},
             ],
             # LSTMCell Args
