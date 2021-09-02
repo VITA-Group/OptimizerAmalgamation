@@ -39,19 +39,11 @@ OVERRIDE_PRESETS = {
          "config": {"learning_rate": 0.5, "beta_1": 0.9,
                     "beta_2": 0.999, "epsilon": 1e-10}},
     )],
-    "choice": [(
-        ["training", "teachers", "*"],
-        {
-            "class_name": "__load__",
-            "directory": "results/choice/base/1",
-            "checkpoint": "period_3.0"
-        }
-    )],
     "more_choice": [(
         ["training", "teachers", "*"],
         {
             "class_name": "__load__",
-            "directory": "results/more-choice/base/1",
+            "directory": "results/more_choice/base/1",
             "checkpoint": "period_4.0"
         }
     )],
@@ -59,7 +51,7 @@ OVERRIDE_PRESETS = {
         ["training", "teachers", "*"],
         {
             "class_name": "__load__",
-            "directory": "results/less-choice/base/1",
+            "directory": "results/less_choice/base/1",
             "checkpoint": "period_4.0"
         }
     )],

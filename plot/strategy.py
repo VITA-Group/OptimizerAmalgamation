@@ -24,12 +24,13 @@ def _read_json(d):
 class ReplicateResults:
     """Results from multiple replicates."""
 
-    def __init__(self, path, name="ReplicateResults"):
-        self.directory = path
+    def __init__(self, base, path, name="ReplicateResults"):
+        self.directory = os.path.join(base, path)
+        self.path = path
         self.name = name
         self.replicates = {
-            p: get_container(os.path.join(path, p), name=name + "/" + p)
-            for p in sorted(os.listdir(path))
+            p: get_container(base, path + "/" + p, name=name + "/" + p)
+            for p in sorted(os.listdir(self.directory))
         }
 
     @property
@@ -47,6 +48,10 @@ class ReplicateResults:
     def get(self, replicate):
         """Get individual test."""
         return self.replicates[replicate]
+
+    def replicates_fullpath(self):
+        """Get replicate dict as full paths."""
+        return {self.path + "/" + k: v for k, v in self.replicates.items()}
 
     def boxplot(
             self, ax, problem="conv_train", stat="val_best",
@@ -113,10 +118,10 @@ class BaseResult:
 
     _groupby = ["period"]
 
-    def __init__(self, path, name="BaseResult"):
-        self.directory = path
+    def __init__(self, base, path, name="BaseResult"):
+        self.directory = os.path.join(base, path)
         self.name = name
-        self.summary = pd.read_csv(os.path.join(path, "summary.csv"))
+        self.summary = pd.read_csv(os.path.join(self.directory, "summary.csv"))
 
         self._config = None
 
@@ -235,8 +240,8 @@ class BaseResult:
 class Baseline(BaseResult):
     """Baseline result container."""
 
-    def __init__(self, path, name="DefaultBaseline"):
-        self.directory = path
+    def __init__(self, base, path, name="DefaultBaseline"):
+        self.directory = os.path.join(base, path)
         self.name = name
 
     def get_eval(self, problem="conv_train", **metadata):
@@ -248,6 +253,25 @@ class Baseline(BaseResult):
 
     def _display_name(self, **metadata):
         return self.name
+
+
+class Gridsearch(BaseResult):
+    """Gridsearch result container."""
+
+    def __init__(self, base, path, name="DefaultGridsearch"):
+        self.base = base
+        self.path = path
+        self.name = name
+
+    def get_eval(self, problem="conv_train", lr=0.01):
+        """Get gridsearch results from .npz."""
+        return _npload(self.base, problem, self.path, str(lr))
+
+    def _parse_metadata(self, n):
+        return {"lr": n}
+
+    def _display_name(self, lr=0.01):
+        return self.name + "/" + str(lr)
 
 
 class RepeatResult(BaseResult):
@@ -383,16 +407,16 @@ class CurriculumResult(BaseResult):
         ax.legend()
 
 
-def get_container(path, **kwargs):
+def get_container(base, path, **kwargs):
     """Get result container."""
     try:
         s = _read_json(
-            os.path.join(path, "config.json"))["strategy_constructor"]
+            os.path.join(base, path, "config.json"))["strategy_constructor"]
         if s == "CurriculumLearningStrategy":
-            return CurriculumResult(path, **kwargs)
+            return CurriculumResult(base, path, **kwargs)
         elif s == "RepeatStrategy":
-            return RepeatResult(path, **kwargs)
+            return RepeatResult(base, path, **kwargs)
         else:
             raise ValueError("Invalid strategy type {}".format(s))
     except FileNotFoundError:
-        return ReplicateResults(path, **kwargs)
+        return ReplicateResults(base, path, **kwargs)

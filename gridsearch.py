@@ -50,7 +50,7 @@ policies = {
 
 def _make_gridsearch_entry(policy, constructor, lr):
 
-    print("Gridsearch: {}/{}/{}".format(problem, policy, lr))
+    print("Gridsearch: {}/{}/{}".format(policy, problem, lr))
     results = []
     for i in range(repeat):
         print("Gridsearch Evaluation {}/{}".format(i + 1, repeat))
@@ -59,7 +59,7 @@ def _make_gridsearch_entry(policy, constructor, lr):
                 constructor(lr).as_optimizer(), **get_eval_problem(problem))
         results.append(_res)
 
-    dst = "gridsearch/{}/{}".format(problem, policy)
+    dst = "gridsearch/{}/{}".format(policy, problem)
     os.makedirs(dst, exist_ok=True)
 
     results = {k: np.stack([d[k] for d in results]) for k in results[0]}

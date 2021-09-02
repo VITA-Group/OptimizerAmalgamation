@@ -6,13 +6,16 @@ import numpy as np
 import functools
 from matplotlib import pyplot as plt
 
-from .strategy import get_container, Baseline, ReplicateResults
+from .strategy import get_container, Baseline, ReplicateResults, Gridsearch
 from . import plots
 
 
 def _read_json(d):
-    with open(d) as f:
-        return json.load(f)
+    try:
+        with open(d) as f:
+            return json.load(f)
+    except FileNotFoundError:
+        return {}
 
 
 def running_mean(x, N):
@@ -73,6 +76,8 @@ class Results:
         Results directory
     baseline : str
         Baseline directory
+    gridsearch : str
+        Gridsearch directory
     """
 
     _keys = [
@@ -80,10 +85,13 @@ class Results:
         "val_sparse_categorical_accuracy"
     ]
 
-    def __init__(self, results="results", baseline="baseline"):
+    def __init__(
+            self, results="results", baseline="baseline",
+            gridsearch="gridsearch"):
 
         self.dir_results = results
         self.dir_baseline = baseline
+        self.dir_gridsearch = gridsearch
 
         self.baselines = {
             k: k for k in os.listdir(baseline)
@@ -101,6 +109,8 @@ class Results:
         self.results.update(_read_json(os.path.join(results, "names.json")))
         self._results = {}
 
+        self.gridsearch = _read_json(os.path.join(gridsearch, "names.json"))
+
         self._init_plots()
 
     def register_names(self, names):
@@ -116,27 +126,35 @@ class Results:
     def _get_test(self, t):
         """Get container."""
         base = t.split(":")[0].split("/")
-        if len(base) == 2:
+        if len(base) <= 2:
             replicate = None
         else:
             replicate = "/".join(base[2:])
         base = "/".join(base[:2])
 
-        if base in self.baselines:
-            return Baseline(
-                os.path.join(self.dir_baseline, base),
-                name=self.baselines[base])
+        if base in self.gridsearch:
+            return Gridsearch(
+                self.dir_gridsearch, base, name=self.gridsearch[base])
+        elif base in self.baselines:
+            return Baseline(self.dir_baseline, base, name=self.baselines[base])
         elif base in self.results:
             if base not in self._results:
-                path = os.path.join(self.dir_results, base)
                 self._results[base] = get_container(
-                    path, name=self.results[base])
+                    self.dir_results, base, name=self.results[base])
             if replicate is None:
                 return self._results[base]
             else:
                 return self._results[base].get(replicate)
         else:
             raise ValueError("Unknown result: {}".format(base, replicate))
+
+    def replicates(self, t):
+        """Get replicate dictionary."""
+        res = self._get_test(t)
+        if isinstance(res, ReplicateResults):
+            return res.replicates_fullpath()
+        else:
+            raise ValueError("{} is not a ReplicateResults.".format(t))
 
     def _expand_name(self, t):
         """Expand name into base and metadata."""
@@ -178,20 +196,13 @@ class Results:
             self, tests, ax, problem="conv_train",
             baselines=[], func=None, **kwargs):
         """Make plot."""
+        if isinstance(tests, str):
+            tests = [tests]
+
         if isinstance(tests, list):
             data, dnames = self._gather_eval(
                 baselines + tests, problem=problem)
             func(ax, data, dnames, **kwargs)
-        elif isinstance(tests, str):
-            data_b, dnames_b = self._gather_eval(baselines, problem=problem)
-
-            repl = self._get_test(tests)
-            dnames, data = zip(*[
-                (k, v.get_eval(problem=problem))
-                for k, v in repl.replicates.items()
-            ])
-
-            func(ax, data_b + list(data), dnames_b + list(dnames), **kwargs)
         else:
             raise TypeError("Invalid tests type: {}".format(tests))
 
