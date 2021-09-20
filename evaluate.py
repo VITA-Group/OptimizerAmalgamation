@@ -1,4 +1,17 @@
-"""Evaluate learned optimizer.
+"""Evaluate L2O."""
+
+import os
+import sys
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
+import tensorflow as tf
+
+import l2o
+from config import ArgParser, get_eval_problem
+from gpu_setup import create_distribute
+
+
+HELP = """
+Evaluate learned optimizer.
 
 Examples
 --------
@@ -11,8 +24,6 @@ Arguments
     are created, and a mirrored strategy is created with all physical GPUs.
 --cpu : bool
     (debug) Whether to use CPU-only training.
---gpus : int[]
-    Comma separated list of GPU indices to use on a multi-gpu system.
 --problem : str
     Problem to evaluate on. Can pass a comma separated list.
 --directory : str
@@ -32,18 +43,13 @@ Arguments
     Periods to evaluate.
 --stages : int
     Stages to evaluate. Only use if strategy=curriculum.
-(all other args)
+(all other args) : float
     Passed as overrides to strategy/policy building.
 """
 
-import os
-import sys
-os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
-import tensorflow as tf
-
-import l2o
-from config import ArgParser, get_eval_problem
-from gpu_setup import create_distribute
+if len(sys.argv) < 2:
+    print(HELP)
+    exit(0)
 
 # Distribute args
 args = ArgParser(sys.argv[1:])

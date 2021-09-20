@@ -55,14 +55,6 @@ target_cfg = {
         "class_name": "RMSProp",
         "config": {"learning_rate": 0.005, "rho": 0.9}
     },
-    "adam_cifar": {
-        "class_name": "Adam",
-        "config": {"learning_rate": 0.002, "beta_1": 0.9, "beta_2": 0.999}
-    },
-    "rmsprop_cifar": {
-        "class_name": "RMSProp",
-        "config": {"learning_rate": 0.002, "rho": 0.9}
-    },
     "sgd": {
         "class_name": "SGD",
         "config": {"learning_rate": 0.2}
@@ -82,7 +74,32 @@ target_cfg = {
     "powersign": {
         "class_name": "PowerSign",
         "config": {"learning_rate": 0.1, "beta_1": 0.9, "beta_2": 0.999}
-    }
+    },
+    "adam_deep": {
+        "class_name": "Adam",
+        "config": {"learning_rate": 0.001, "beta_1": 0.9, "beta_2": 0.999}
+    },
+    "rmsprop_deep": {
+        "class_name": "RMSProp",
+        "config": {"learning_rate": 0.0005, "rho": 0.9}
+    },
+    "sgd_deep": {
+        "class_name": "SGD",
+        "config": {"learning_rate": 0.2}
+    },
+    "momentum_deep": {
+        "class_name": "Momentum",
+        "config": {"learning_rate": 0.2, "beta_1": 0.9}
+    },
+    "addsign_deep": {
+        "class_name": "AddSign",
+        "config": {"learning_rate": 0.05, "beta_1": 0.9, "beta_2": 0.999}
+    },
+    "powersign_deep": {
+        "class_name": "PowerSign",
+        "config": {"learning_rate": 0.05, "beta_1": 0.9, "beta_2": 0.999}
+    },
+
 }[target]
 
 repeat = args.pop_get("--repeat", default=10, dtype=10)
