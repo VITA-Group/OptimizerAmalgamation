@@ -43,7 +43,7 @@ gpus = args.pop_get("--gpus", default=None)
 use_keras = args.pop_get("--keras", default=True, dtype=bool)
 distribute = create_distribute(vgpus=vgpus, do_cpu=cpu, gpus=gpus)
 
-problem = args.pop_get("--problem", "conv_train")
+problems = args.pop_get("--problem", "conv_train")
 
 target = args.pop_get("--optimizer", "adam")
 target_cfg = {
@@ -103,25 +103,27 @@ target_cfg = {
 }[target]
 
 repeat = args.pop_get("--repeat", default=10, dtype=10)
+problems = problems.split(",")
 
-kwargs = get_eval_problem(problem)
-if "steps" in kwargs:
-    evaluator = l2o.evaluate.evaluate_function
-else:
-    evaluator = l2o.evaluate.evaluate_model
+for problem in problems:
+    kwargs = get_eval_problem(problem)
+    if "steps" in kwargs:
+        evaluator = l2o.evaluate.evaluate_function
+    else:
+        evaluator = l2o.evaluate.evaluate_model
 
-with distribute.scope():
-    results = []
-    for i in range(repeat):
-        print("Evaluation Training {}/{}".format(i + 1, repeat))
+    with distribute.scope():
+        results = []
+        for i in range(repeat):
+            print("Evaluation Training {}/{}".format(i + 1, repeat))
 
-        if use_keras:
-            opt = tf.keras.optimizers.get(target_cfg)
-        else:
-            pol = l2o.deserialize.policy(target_cfg)
-            opt = pol.architecture(pol)
-        results.append(evaluator(opt, **kwargs))
-    results = {k: np.stack([d[k] for d in results]) for k in results[0]}
+            if use_keras:
+                opt = tf.keras.optimizers.get(target_cfg)
+            else:
+                pol = l2o.deserialize.policy(target_cfg)
+                opt = pol.architecture(pol)
+            results.append(evaluator(opt, **kwargs))
+        results = {k: np.stack([d[k] for d in results]) for k in results[0]}
 
-    os.makedirs(os.path.join("baseline", target), exist_ok=True)
-    np.savez(os.path.join("baseline", target, problem), **results)
+        os.makedirs(os.path.join("baseline", target), exist_ok=True)
+        np.savez(os.path.join("baseline", target, problem), **results)
