@@ -86,7 +86,10 @@ class ReplicateResults:
     def _drop(self, d, best=True):
         """Helper function to drop the best or worst case."""
         for k, v in d.items():
-            means = np.mean(v, axis=1)
+            try:
+                means = np.mean(v, axis=1)
+            except np.AxisError:
+                means = v
             best_idx = np.argmin(means) if best else np.argmax(means)
             d[k] = v[[i for i, _ in enumerate(v) if i != best_idx]]
         return d

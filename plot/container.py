@@ -197,7 +197,7 @@ class Results:
             baselines=[], func=None, **kwargs):
         """Make plot."""
         if isinstance(tests, str):
-            tests = [tests]
+            tests = list(self._get_test(tests).replicates_fullpath().keys())
 
         if isinstance(tests, list):
             data, dnames = self._gather_eval(

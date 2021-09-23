@@ -129,7 +129,7 @@ POLICY = {
             "param_units": 20,
             "tensor_units": 10,
             "global_units": 10,
-            "init_lr": [1e-6, 1e-2],
+            "init_lr": [1e-3, 1e-3],
             "timescales": 4,
             "epsilon": 1e-10,
             "momentum_decay_bias_init": logit(0.9),
