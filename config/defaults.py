@@ -132,8 +132,8 @@ POLICY = {
             "init_lr": [1e-3, 1e-3],
             "timescales": 4,
             "epsilon": 1e-10,
-            "momentum_decay_bias_init": logit(0.1),
-            "variance_decay_bias_init": logit(0.001),
+            "momentum_decay_bias_init": logit(0.9),
+            "variance_decay_bias_init": logit(0.999),
             "use_gradient_shortcut": True,
             "name": "ScaleHierarchicalOptimizer",
             # GRUCell args
