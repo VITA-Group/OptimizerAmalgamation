@@ -102,7 +102,11 @@ if strategy == "curriculum":
             for s, p in zip(stages.split(","), periods.split(","))]
 
 # All remaining args are converted to overrides
-overrides = args.to_overrides()
+if args.pop_check("--override"):
+    overrides = args.to_overrides()
+else:
+    overrides = []
+    args.assert_empty()
 
 # Eval loop
 with distribute.scope():

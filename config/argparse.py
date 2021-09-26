@@ -55,3 +55,10 @@ class ArgParser:
         return [
             (path[2:].split('/'), self.__eval_or_str(value))
             for path, value in self.kwargs.items()]
+
+    def assert_empty(self):
+        """Raises Exception if there are any remaining arguments."""
+        if self.kwargs:
+            raise Exception(
+                "Some arguments passed have not been used: {}".format(
+                    self.kwargs))

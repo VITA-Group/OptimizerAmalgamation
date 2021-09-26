@@ -105,6 +105,8 @@ target_cfg = {
 repeat = args.pop_get("--repeat", default=10, dtype=10)
 problems = problems.split(",")
 
+args.assert_empty()
+
 for problem in problems:
     kwargs = get_eval_problem(problem)
     if "steps" in kwargs:

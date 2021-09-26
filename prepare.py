@@ -70,11 +70,12 @@ if do_debug:
 else:
     _base_block = BASE_BLOCK
 
+args.assert_empty()
+
 script = "scripts/{}-{}-{}.sh".format(ctx["policy"], ctx["base"], flags[0])
 with open(script, "w") as f:
     f.write(BASE_SCRIPT.format(**ctx) + "".join(
         [_base_block.format(flags=f, **ctx) for f in flags]))
-
 
 print(BASE_RUNNER.format(
     shortname=ctx["policy"][0].upper(), flags=flags[0], **ctx))
