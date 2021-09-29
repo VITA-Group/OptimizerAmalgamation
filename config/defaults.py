@@ -135,6 +135,7 @@ POLICY = {
             "momentum_decay_bias_init": logit(0.9),
             "variance_decay_bias_init": logit(0.999),
             "use_gradient_shortcut": True,
+            "learning_rate_momentum_init": 3.2,
             "name": "ScaleHierarchicalOptimizer",
             # GRUCell args
             "activation": "tanh",
