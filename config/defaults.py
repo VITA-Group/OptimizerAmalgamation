@@ -80,7 +80,7 @@ STRATEGY = {
         "strategy": {
             "validation_problems": None,
             "validation_seed": 12345,
-            "num_periods": 4,
+            "num_periods": 20,
             "unroll_len": 100,
             "depth": {"type": "list", "values": [1, 2, 5]},
             "epochs": 10,
@@ -191,6 +191,7 @@ POLICY = {
         "policy_constructor": "DMOptimizer",
         "policy": {
             # DMOptimizer
+            "learning_rate": 0.1,
             "layers": [20, 20],
             "name": "DMOptimizer",
             # LSTMCell Args

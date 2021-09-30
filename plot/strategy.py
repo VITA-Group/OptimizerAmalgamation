@@ -215,7 +215,7 @@ class BaseResult:
         res = self.get_eval(problem=problem, **metadata)
         return {
             "val_best_index": np.argmin(res["val_loss"], axis=1),
-            "val_best": np.log(np.min(res["val_loss"], axis=1)),
+            "val_best": np.log(np.nanmin(res["val_loss"], axis=1)),
             "val_last": np.log(res["val_loss"][:, -1]),
             "val_meta": np.mean(np.log(res["val_loss"]), axis=1),
             "val_stability": np.sqrt(np.var(
@@ -223,7 +223,7 @@ class BaseResult:
                 - np.log(res["val_loss"]), axis=1
             )),
             "train_best_index": np.argmin(res["loss"], axis=1),
-            "train_best": np.log(np.min(res["loss"], axis=1)),
+            "train_best": np.log(np.nanmin(res["loss"], axis=1)),
             "train_last": np.log(res["loss"][:, -1]),
             "train_10": np.log(res["loss"][:, 9]),
             "train_meta": np.mean(np.log(res["val_loss"]), axis=1),
