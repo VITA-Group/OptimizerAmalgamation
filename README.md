@@ -1,4 +1,4 @@
-# Optimizer Distillation
+# Optimizer Amalgamation
 
 ## Setup and Basic Usage
 
@@ -30,13 +30,13 @@ After downloading and unzipping, the optimizers can be loaded as an L2O framewor
 import tensorflow as tf
 import l2o
 
-# Folder is sorted as ```pre-trained/{distillation type}/{replicate #}
+# Folder is sorted as ```pre-trained/{amalgamation type}/{replicate #}
 opt = l2o.load("pre-trained/choice-large/7")
 # The following is True
 isinstance(opt, tf.keras.optimizers.Optimizer)
 ```
 
-Pre-trained weights for Mean distillation (small pool), Min-max distillation (small pool), Choice distillation (small pool), and Choice distillation (large pool) are included.
+Pre-trained weights for Mean amalgamation (small pool), Min-max amalgamation (small pool), Choice amalgamation (small pool), and Choice amalgamation (large pool) are included.
 Each folder contains 8 replicates with varying performance.
 
 ### Included scripts
@@ -109,9 +109,9 @@ Key files:
 
 ## Experiments
 
-### Mean, min-max distillation
+### Mean, min-max amalgamation
 
-Training with min-max distillation, rnnprop as target, small pool, convolutional network for training:
+Training with min-max amalgamation, rnnprop as target, small pool, convolutional network for training:
 ```
 python train.py \
     --presets=conv_train,adam,rmsprop,il_more \
@@ -128,9 +128,9 @@ python evaluate.py \
     --repeat=10
 ```
 
-Min-max distillation is the default setting. To use mean distillation, add the ```reduce_mean``` preset.
+Min-max amalgamation is the default setting. To use mean amalgamation, add the ```reduce_mean``` preset.
 
-### Choice distillation
+### Choice amalgamation
 
 Train the choice policy:
 ```
@@ -141,7 +141,7 @@ python train.py \
     --directory=results/less-choice/base/1
 ```
 
-Train for the final distillation step:
+Train for the final amalgamation step:
 ```
 python train.py \
     --presets=conv_train,less_choice,il_more \
@@ -158,7 +158,7 @@ python evaluate.py \
     --repeat=10
 ```
 
-### Stability-Aware Optimizer Distillation
+### Stability-Aware Optimizer Amalgamation
 
 FGSM, PGD, Adaptive PGD, Gaussian, and Adaptive Gaussian perturbations are implemented.
 | Perturbation | Description | Preset Name | Magnitude Parameter |
