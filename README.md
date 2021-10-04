@@ -1,14 +1,12 @@
 # Optimizer Distillation
 
-**If accepted, place paper explainer here.**
-
 ## Setup and Basic Usage
 
 ### Basic Setup
 
 1. Clone repository and submodules
 ```
-git clone --recursive https://github.com/VITA-Group/OptimizerDistillation
+git clone --recursive [removed]
 ```
 
 2. Check dependencies:
@@ -21,12 +19,13 @@ git clone --recursive https://github.com/VITA-Group/OptimizerDistillation
 | numpy | 1.18.5, 1.19.2 | >=1.20 |
 | scipy | 1.4.1, 1.6.2 | n/a |
 
-See [here](https://github.com/thetianshuhuang/l2o) for more dependency information.
+See [removed] for more dependency information.
 
 ### Load pre-trained optimizer
 
-Pre-trained weights can be found in the ``releases" tab on github.
+Pre-trained weights can be found in the ``releases" tab on [removed].
 After downloading and unzipping, the optimizers can be loaded as an L2O framework extending tf.keras.optimizers.Optimizer:
+
 ```python
 import tensorflow as tf
 import l2o
