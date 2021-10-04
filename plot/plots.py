@@ -154,11 +154,15 @@ def plot_loss(
 
 def plot_accuracy(
         ax, data, names, band_scale=0, validation=False,
-        time=False, adjust_init_time=True, legend=True):
+        time=False, adjust_init_time=True, legend=True, labels=True,
+        colors=None):
     """Plot loss curve by epoch/time."""
     key = "val_" if validation else ""
 
-    for d, n in zip(data, names):
+    if colors is None:
+        colors = [None for _ in data]
+
+    for d, n, c in zip(data, names, colors):
 
         if time:
             x = np.mean(d["epoch_time"], axis=0)
@@ -168,12 +172,13 @@ def plot_accuracy(
             x = np.arange(d["epoch_time"].shape[1])
 
         y = d[key + "sparse_categorical_accuracy"]
-        plot_band(ax, x, y, label=n, band_scale=band_scale)
+        plot_band(ax, x, y, label=n, band_scale=band_scale, color=c)
 
     if legend:
         ax.legend()
-    ax.set_ylabel("Validation Accuracy" if validation else "Training Accuracy")
-    ax.set_xlabel("Time (s)" if time else "Epochs")
+    if labels:
+        ax.set_ylabel("Validation Accuracy" if validation else "Training Accuracy")
+        ax.set_xlabel("Time (s)" if time else "Epochs")
 
 
 def plot_stats_batch(
