@@ -102,7 +102,7 @@ target_cfg = {
 
 }[target]
 
-repeat = args.pop_get("--repeat", default=10, dtype=10)
+repeat = args.pop_get("--repeat", default=10, dtype=int)
 problems = problems.split(",")
 
 args.assert_empty()
