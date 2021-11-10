@@ -259,6 +259,26 @@ EVALUATION_PROBLEMS = {
         "epochs": 25,
         "batch_size": 128
     },
+    "resnet_52": {
+        "config": {
+            "depth": 52,
+            "width": 1,
+        },
+        "target": "resnet",
+        "dataset": "cifar10",
+        "epochs": 25,
+        "batch_size": 128
+    },
+    "resnet_52_100": {
+        "config": {
+            "depth": 52,
+            "width": 1,
+        },
+        "target": "resnet",
+        "dataset": "cifar100",
+        "epochs": 25,
+        "batch_size": 128
+    },
     "wide_resnet": {
         "config": {
             "depth": 28,
