@@ -353,7 +353,7 @@ POLICY = {
             "warmup_lstm_update": False,
             # Choices
             "pool": [
-                {"class_name": "SGD", "config": {"learning_rate": 2.0}},
+                {"class_name": "SGD", "config": {"learning_rate": 0.2}},
                 {"class_name": "Adam",
                  "config": {"learning_rate": 0.02, "beta_1": 0.9,
                             "beta_2": 0.999, "epsilon": 1e-10}},
