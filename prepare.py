@@ -33,7 +33,7 @@ BASE_BLOCK = """python3 train.py \\
 python3 evaluate.py \\
     --problem={problem} \\
     --directory=results/{policy}/{base}/{flags} \\
-    --repeat=5
+    --repeat=10
 """
 
 BLOCK_DEBUG = """
