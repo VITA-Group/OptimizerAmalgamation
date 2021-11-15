@@ -233,7 +233,7 @@ OVERRIDE_PRESETS = {
     "gaussian_rel": [(
         ["policy", "perturbation"], {
             "class_name": "RandomPerturbation",
-            "config": {"noise_stddev": 0.001, "relative": True}
+            "config": {"noise_stddev": 0.0005, "relative": True}
         }
     )],
     "inoise_1e-1": [(["policy", "input_noise"], 0.1)],
