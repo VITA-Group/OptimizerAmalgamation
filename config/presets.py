@@ -135,18 +135,23 @@ OVERRIDE_PRESETS = {
     # ----------------------------------------------------------------------- #
 
     "debug": [
-        (["strategy", "num_periods"], 3),
-        (["strategy", "unroll_len"], 20),
-        (["strategy", "depth"], 2),
-        (["strategy", "epochs"], 25),
-        (["strategy", "validation_unroll"], 5),
-        (["strategy", "validation_depth"], 10),
+        (["strategy", "num_periods"], 5),
+        (["strategy", "unroll_len"], 100),
+        (["strategy", "depth"], 1),
+        (["strategy", "epochs"], 10),
+        (["strategy", "validation_unroll"], 100),
+        (["strategy", "validation_depth"], 2),
         (["strategy", "validation_epochs"], 1),
         (["strategy", "max_repeat"], 1),
+        (["training", "il_mode"], "imitation")
     ],
     "log_teachers": [
         (["training", "step_callbacks", "*"], "WhichTeacherCountCallback"),
         (["training", "stack_stats", "*"], "teacher_counts"),
+    ],
+    "log_losses": [
+        (["training", "step_callbacks", "*"], "TeacherLossCallback"),
+        (["training", "stack_stats", "*"], "teacher_loss"),
     ],
     "il_adjusted": [
         (["strategy", "annealing_schedule"],

@@ -49,6 +49,13 @@ BASE_RUNNER = (
     "{allocation}-J {shortname}{base}{flags} "
     "scripts/{policy}-{base}-{flags}.sh")
 
+
+PROBLEMS_DEFAULT = ",".join([
+    "conv_train", "conv_deeper_pool", "conv_wider",
+    "conv_fmnist", "conv_svhn", "conv_cifar10_wider",
+    "conv_smallbatch", "conv_train_dp", "mlp_train", "resnet"
+])
+
 args = ArgParser(sys.argv[1:])
 
 flags = args.pop_get("--flags", "test").split(",")
@@ -56,8 +63,7 @@ ctx = {
     "presets": args.pop_get("--presets", "conv_train"),
     "policy": args.pop_get("--policy", "rnnprop"),
     "strategy": args.pop_get("--strategy", "repeat"),
-    "problem": args.pop_get(
-        "--problem", "conv_train,conv_deeper_pool,conv_cifar10_pool"),
+    "problem": args.pop_get("--problem", PROBLEMS_DEFAULT),
     "base": args.pop_get("--base", "test"),
     "time": args.pop_get("--time", "24:00:00"),
 }
