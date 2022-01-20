@@ -1,6 +1,6 @@
 # Optimizer Amalgamation
 
-[ICLR 2022] ["Optimizer Amalgamation"](https://openreview.net/pdf?id=VqzXzA9hjaX) by Tianshu Huang, Tianlong Chen, Sijia Liu, Shiyu Chang, Lisa Amini, Zhangyang Wang
+Codes for [ICLR 2022] ["Optimizer Amalgamation"](https://openreview.net/pdf?id=VqzXzA9hjaX) by Tianshu Huang, Tianlong Chen, Sijia Liu, Shiyu Chang, Lisa Amini, Zhangyang Wang
 
 ## Setup and Basic Usage
 
